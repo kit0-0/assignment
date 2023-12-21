@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import img from "../assets/2.png";
 
 function LoginPage() {
   const [formData, setFormData] = useState({
@@ -44,7 +45,7 @@ function LoginPage() {
     <div className="loginBox">
       <img
         className="user"
-        src="https://i.ibb.co/yVGxFPR/2.png"
+        src={img}
         height="100px"
         width="100px"
         alt="user-avatar"
