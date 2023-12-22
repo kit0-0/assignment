@@ -72,7 +72,7 @@ function ForgotPassword() {
       </Form>
       <div className="text-center">
         <p>
-          Remember your password? <Link to="/login">Login</Link>
+          Remember your password? <Link to="/">Login</Link>
         </p>
       </div>
     </div>
