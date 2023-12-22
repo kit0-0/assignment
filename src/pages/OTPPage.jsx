@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 
 function OTPPage() {
   const [otp, setOTP] = useState(["", "", "", "", "", ""]);
   const navigate = useNavigate();
+  const hardCodedOTP = "123456";
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
 
   const handleChange = (index, value) => {
     if (/^\d+$/.test(value) || value === "") {
@@ -20,14 +23,20 @@ function OTPPage() {
     event.preventDefault();
 
     if (otp.some((digit) => digit === "")) {
-      alert("Please enter the complete OTP.");
+      setShowErrorAlert(true);
       return;
     }
 
     const enteredOTP = otp.join("");
-    console.log("Entered OTP:", enteredOTP);
 
-    navigate("/");
+    if (enteredOTP === hardCodedOTP) {
+      setShowSuccessAlert(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    } else {
+      setShowErrorAlert(true);
+    }
   };
 
   return (
@@ -42,7 +51,7 @@ function OTPPage() {
                 maxLength="1"
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
-                className="form-control text-center p-0 "
+                className="form-control text-center p-0 bg-white text-dark"
               />
             </div>
           ))}
@@ -51,9 +60,27 @@ function OTPPage() {
           Verify OTP
         </Button>
       </Form>
+      {showSuccessAlert && (
+        <Alert
+          variant="success"
+          onClose={() => setShowSuccessAlert(false)}
+          dismissible
+        >
+          OTP verification successful! Redirecting to the login page.
+        </Alert>
+      )}
+      {showErrorAlert && (
+        <Alert
+          variant="danger"
+          onClose={() => setShowErrorAlert(false)}
+          dismissible
+        >
+          Please enter the complete OTP.
+        </Alert>
+      )}
       <div className="text-center">
         <p>
-          Resend OTP? <Link to="/">Resend</Link>
+          Resend OTP? <Link>Resend</Link>
         </p>
         <p>
           Back to <Link to="/">Login</Link>
